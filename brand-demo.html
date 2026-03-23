@@ -1,0 +1,2516 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tower Ventures — Design System Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+[data-lucide] {
+  stroke: currentColor;
+  display: inline-block;
+  vertical-align: middle;
+}
+/* ══════════════════════════════════════════════════════
+   TOWER VENTURES — DESIGN TOKENS
+   ══════════════════════════════════════════════════════ */
+:root {
+  --background: #f8f9fc;
+  --foreground: #0f1729;
+  --card: #ffffff;
+  --card-foreground: #0f1729;
+  --popover: #ffffff;
+  --popover-foreground: #0f1729;
+  --primary: #1a6dca;
+  --primary-foreground: #ffffff;
+  --secondary: #8b2fc9;
+  --secondary-foreground: #ffffff;
+  --muted: #ebeef5;
+  --muted-foreground: #6b7a99;
+  --accent: #ebeef5;
+  --accent-foreground: #0f1729;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --success: #16a34a;
+  --success-foreground: #ffffff;
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
+  --border: #dfe3ee;
+  --border-subtle: #ebeef5;
+  --border-active: #1a6dca;
+  --input: #dfe3ee;
+  --ring: #1a6dca;
+  --surface-elevated: #f0f2f8;
+  --surface-inset: #ebeef5;
+  --text-secondary: #374160;
+  --text-disabled: #a0aac0;
+  --radius: 0.5rem;
+
+  /* Phasen-Akzente */
+  --week-1: #1a6dca;
+  --week-2: #8b2fc9;
+  --week-3: #c05621;
+  --week-4: #0f8a6b;
+
+  /* Chart */
+  --chart-1: #1a6dca;
+  --chart-2: #8b2fc9;
+  --chart-3: #c05621;
+  --chart-4: #0f8a6b;
+  --chart-5: #d4a017;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.dark {
+  --background: #06080f;
+  --foreground: #e8ecf4;
+  --card: #0c1021;
+  --card-foreground: #e8ecf4;
+  --popover: #0c1021;
+  --popover-foreground: #e8ecf4;
+  --primary: #3b8ef0;
+  --primary-foreground: #ffffff;
+  --secondary: #a855f7;
+  --secondary-foreground: #ffffff;
+  --muted: #131830;
+  --muted-foreground: #7b8ab0;
+  --accent: #131830;
+  --accent-foreground: #e8ecf4;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --success: #22c55e;
+  --success-foreground: #ffffff;
+  --warning: #f59e0b;
+  --warning-foreground: #ffffff;
+  --border: #1e2642;
+  --border-subtle: #151c35;
+  --border-active: #3b8ef0;
+  --input: #1e2642;
+  --ring: #3b8ef0;
+  --surface-elevated: #131830;
+  --surface-inset: #0a0e1a;
+  --text-secondary: #b0bcd5;
+  --text-disabled: #3e4a6a;
+
+  --week-1: #3b8ef0;
+  --week-2: #a855f7;
+  --week-3: #f07a3b;
+  --week-4: #34d399;
+
+  --chart-1: #3b8ef0;
+  --chart-2: #a855f7;
+  --chart-3: #f07a3b;
+  --chart-4: #34d399;
+  --chart-5: #facc15;
+}
+
+/* ══════════════════════════════════════════════════════
+   BASE STYLES
+   ══════════════════════════════════════════════════════ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--background);
+  color: var(--foreground);
+  line-height: 1.6;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ══════════════════════════════════════════════════════
+   LAYOUT
+   ══════════════════════════════════════════════════════ */
+.demo-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.demo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0 2.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3rem;
+}
+
+.demo-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.demo-header .gradient-text {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mode-toggle {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--muted);
+  padding: 3px;
+  border-radius: 8px;
+}
+.mode-toggle button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted-foreground);
+  transition: all 0.2s;
+}
+.mode-toggle button.active {
+  background: var(--card);
+  color: var(--foreground);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+section {
+  margin-bottom: 3rem;
+}
+
+section > h2 {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.75rem; }
+.grid-5 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 0.75rem; }
+.flex-row { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+.flex-col { display: flex; flex-direction: column; gap: 0.75rem; }
+
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr 1fr; }
+}
+
+/* ══════════════════════════════════════════════════════
+   1. FARBEN
+   ══════════════════════════════════════════════════════ */
+.swatch {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.swatch-color {
+  height: 64px;
+}
+.swatch-info {
+  padding: 8px 10px;
+  background: var(--card);
+}
+.swatch-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.swatch-value {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--muted-foreground);
+  margin-top: 2px;
+}
+
+/* ══════════════════════════════════════════════════════
+   2. TYPOGRAFIE
+   ══════════════════════════════════════════════════════ */
+.type-display { font-size: 3rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; }
+.type-h1 { font-size: 1.875rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
+.type-h2 { font-size: 1.25rem; font-weight: 600; line-height: 1.3; }
+.type-h3 { font-size: 1rem; font-weight: 600; line-height: 1.4; }
+.type-body { font-size: 0.875rem; font-weight: 400; line-height: 1.6; color: var(--text-secondary); }
+.type-small { font-size: 0.75rem; font-weight: 400; line-height: 1.5; color: var(--text-secondary); }
+.type-tiny { font-size: 0.6875rem; font-weight: 500; line-height: 1.4; color: var(--muted-foreground); }
+.type-micro { font-size: 0.625rem; font-weight: 500; line-height: 1.3; letter-spacing: 2px; text-transform: uppercase; color: var(--muted-foreground); }
+.type-mono { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--primary); }
+.type-row { display: flex; align-items: baseline; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border-subtle); }
+.type-label { font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text-disabled); width: 70px; flex-shrink: 0; }
+
+/* ══════════════════════════════════════════════════════
+   3. BUTTONS
+   ══════════════════════════════════════════════════════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  font-size: 14px;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+.btn-primary:hover { filter: brightness(1.1); box-shadow: 0 6px 20px color-mix(in srgb, var(--secondary) 30%, transparent); }
+
+.btn-secondary {
+  background: var(--card);
+  color: var(--foreground);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  position: relative;
+}
+.btn-secondary:hover { background: var(--surface-elevated); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { background: var(--muted); color: var(--foreground); }
+
+.btn-small {
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.btn-small:hover { background: color-mix(in srgb, var(--primary) 18%, transparent); }
+
+.btn-destructive {
+  background: var(--destructive);
+  color: var(--destructive-foreground);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+.btn-destructive:hover { filter: brightness(1.1); }
+
+.btn-icon {
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: 16px;
+  padding: 6px;
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+}
+.btn-icon:hover { background: var(--muted); color: var(--foreground); }
+
+/* ══════════════════════════════════════════════════════
+   4. KARTEN
+   ══════════════════════════════════════════════════════ */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--border-active); }
+.card-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.card-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.card-footer { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle); }
+
+/* ══════════════════════════════════════════════════════
+   5. BADGES / TAGS
+   ══════════════════════════════════════════════════════ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.badge-primary { background: color-mix(in srgb, var(--primary) 12%, transparent); color: var(--primary); }
+.badge-secondary { background: color-mix(in srgb, var(--secondary) 12%, transparent); color: var(--secondary); }
+.badge-success { background: color-mix(in srgb, var(--success) 12%, transparent); color: var(--success); }
+.badge-warning { background: color-mix(in srgb, var(--warning) 12%, transparent); color: var(--warning); }
+.badge-destructive { background: color-mix(in srgb, var(--destructive) 12%, transparent); color: var(--destructive); }
+.badge-muted { background: var(--muted); color: var(--muted-foreground); }
+.badge-week1 { background: color-mix(in srgb, var(--week-1) 12%, transparent); color: var(--week-1); }
+.badge-week2 { background: color-mix(in srgb, var(--week-2) 12%, transparent); color: var(--week-2); }
+.badge-week3 { background: color-mix(in srgb, var(--week-3) 12%, transparent); color: var(--week-3); }
+.badge-week4 { background: color-mix(in srgb, var(--week-4) 12%, transparent); color: var(--week-4); }
+
+/* ══════════════════════════════════════════════════════
+   6. EINGABEFELDER
+   ══════════════════════════════════════════════════════ */
+.input-field {
+  width: 100%;
+  background: var(--surface-inset);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  color: var(--foreground);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.input-field::placeholder { color: var(--text-disabled); }
+.input-field:focus { border-color: var(--primary); box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 15%, transparent); }
+
+.input-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--foreground);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.textarea-field {
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+  background: var(--surface-inset);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  color: var(--foreground);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.textarea-field:focus { border-color: var(--primary); box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 15%, transparent); }
+
+.select-field {
+  background: var(--surface-inset);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  color: var(--foreground);
+  outline: none;
+  cursor: pointer;
+}
+
+/* ══════════════════════════════════════════════════════
+   7. PROGRESS BAR
+   ══════════════════════════════════════════════════════ */
+.progress-track {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+/* ══════════════════════════════════════════════════════
+   8. CHECKBOX
+   ══════════════════════════════════════════════════════ */
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  font-size: 10px;
+  color: white;
+}
+.checkbox.checked {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.checkbox-label-done {
+  text-decoration: line-through;
+  color: var(--muted-foreground);
+}
+
+/* ══════════════════════════════════════════════════════
+   9. CHAT BUBBLES
+   ══════════════════════════════════════════════════════ */
+.chat-container { display: flex; flex-direction: column; gap: 0.75rem; }
+.chat-bubble {
+  max-width: 78%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.chat-user {
+  align-self: flex-end;
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
+  color: var(--foreground);
+}
+.chat-assistant {
+  align-self: flex-start;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+/* ══════════════════════════════════════════════════════
+   10. MODAL
+   ══════════════════════════════════════════════════════ */
+.modal-preview {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 500px;
+}
+.modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-header-title { font-size: 14px; font-weight: 600; }
+.modal-body { padding: 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+.modal-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ══════════════════════════════════════════════════════
+   11. SIDEBAR PREVIEW (Agentix)
+   ══════════════════════════════════════════════════════ */
+.sidebar-preview {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  height: 360px;
+}
+.sidebar {
+  width: 210px;
+  background: var(--card);
+  border-right: 1px solid var(--border-subtle);
+  padding: 1rem 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+.sidebar-label {
+  padding: 0 1rem 0.5rem;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-disabled);
+}
+.sidebar-item {
+  padding: 8px 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.sidebar-item:hover { background: var(--muted); }
+.sidebar-item.active {
+  border-left-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+.sidebar-icon { font-size: 14px; flex-shrink: 0; }
+.sidebar-title { font-size: 12px; font-weight: 600; }
+.sidebar-meta { font-size: 9px; color: var(--muted-foreground); margin-top: 1px; }
+.sidebar-progress { margin-top: 4px; margin-left: 22px; }
+.main-content {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+/* ══════════════════════════════════════════════════════
+   12. SESSION CARD (Agentix)
+   ══════════════════════════════════════════════════════ */
+.session-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.session-card.open { border-color: color-mix(in srgb, var(--primary) 40%, transparent); }
+.session-header {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.session-title { font-size: 13px; font-weight: 600; }
+.session-duration { font-size: 10px; color: var(--muted-foreground); margin-top: 2px; }
+.session-detail {
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+.session-desc { font-size: 12px; color: var(--text-secondary); margin: 10px 0 12px; line-height: 1.7; }
+
+/* ══════════════════════════════════════════════════════
+   13. NAVBAR (Agentix)
+   ══════════════════════════════════════════════════════ */
+.navbar {
+  background: var(--card);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 52px;
+}
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 1px;
+}
+.navbar-icon {
+  width: 22px;
+  height: 22px;
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 40%, transparent);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--primary);
+}
+.navbar-tabs { display: flex; }
+.navbar-tab {
+  padding: 0 14px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  color: var(--muted-foreground);
+  transition: all 0.15s;
+}
+.navbar-tab.active {
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+  border-bottom-color: var(--primary);
+}
+.navbar-progress {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--muted-foreground);
+}
+.navbar-progress-text { color: var(--primary); }
+
+/* ══════════════════════════════════════════════════════
+   14. GRADIENT UTILITIES
+   ══════════════════════════════════════════════════════ */
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-border {
+  position: relative;
+}
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════════════
+   15. ANIMATIONS
+   ══════════════════════════════════════════════════════ */
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+.loading-dots {
+  display: flex;
+  gap: 6px;
+}
+.loading-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+.loading-dot:nth-child(1) { animation: pulse 1s 0s infinite; }
+.loading-dot:nth-child(2) { animation: pulse 1s 0.2s infinite; }
+.loading-dot:nth-child(3) { animation: pulse 1s 0.4s infinite; }
+
+/* ══════════════════════════════════════════════════════
+   SPACING BETWEEN SUBSECTIONS
+   ══════════════════════════════════════════════════════ */
+.subsection { margin-bottom: 1.5rem; }
+.subsection-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+/* ══════════════════════════════════════════════════════
+   14. DATA TABLE
+   ══════════════════════════════════════════════════════ */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table thead th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-elevated);
+  cursor: pointer;
+  user-select: none;
+}
+.data-table thead th:hover { color: var(--foreground); }
+.data-table tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--foreground);
+}
+.data-table tbody tr:hover { background: color-mix(in srgb, var(--primary) 4%, transparent); }
+.table-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+  border-top: 1px solid var(--border);
+  background: var(--surface-elevated);
+}
+.page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--foreground);
+  font-size: 12px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.page-btn:hover { border-color: var(--primary); color: var(--primary); }
+.page-btn.active { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
+
+/* ══════════════════════════════════════════════════════
+   15. CALENDAR
+   ══════════════════════════════════════════════════════ */
+.calendar {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  max-width: 300px;
+}
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.calendar-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+.calendar-nav {
+  display: flex;
+  gap: 4px;
+}
+.calendar-nav button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--muted-foreground);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.calendar-nav button:hover { border-color: var(--primary); color: var(--primary); }
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+}
+.calendar-dow {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  padding: 4px 0;
+  text-transform: uppercase;
+}
+.calendar-day {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--foreground);
+  margin: 0 auto;
+}
+.calendar-day:hover { background: var(--muted); }
+.calendar-day.today {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-weight: 600;
+}
+.calendar-day.highlighted {
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  color: var(--primary);
+  font-weight: 500;
+}
+.calendar-day.other-month {
+  color: var(--text-disabled);
+}
+
+/* ══════════════════════════════════════════════════════
+   16. CHART
+   ══════════════════════════════════════════════════════ */
+.chart-container {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+.chart-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.chart-subtitle {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-bottom: 1.25rem;
+}
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  height: 160px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+}
+.bar-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  justify-content: flex-end;
+}
+.bar {
+  width: 100%;
+  max-width: 48px;
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s ease;
+  min-height: 4px;
+}
+.bar:hover { filter: brightness(1.15); }
+.bar-label {
+  font-size: 10px;
+  color: var(--muted-foreground);
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+}
+.bar-value {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.chart-legend {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+.chart-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+.line-chart {
+  position: relative;
+  height: 140px;
+  border-bottom: 1px solid var(--border-subtle);
+  border-left: 1px solid var(--border-subtle);
+  margin-top: 0.5rem;
+}
+.line-chart-grid-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border-subtle);
+}
+.line-chart-label {
+  position: absolute;
+  left: -30px;
+  font-size: 9px;
+  color: var(--text-disabled);
+  transform: translateY(-50%);
+}
+
+/* ══════════════════════════════════════════════════════
+   17. PRICING CARDS
+   ══════════════════════════════════════════════════════ */
+.pricing-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s;
+}
+.pricing-card:hover { border-color: var(--border-active); }
+.pricing-card.featured {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary), 0 4px 14px color-mix(in srgb, var(--primary) 15%, transparent);
+  position: relative;
+}
+.pricing-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 12px;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+.pricing-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.pricing-desc {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-bottom: 1rem;
+}
+.pricing-price {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+}
+.pricing-period {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-bottom: 1.25rem;
+}
+.pricing-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+.pricing-features li {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pricing-features li::before {
+  content: "✓";
+  color: var(--success);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.pricing-features li.disabled {
+  color: var(--text-disabled);
+}
+.pricing-features li.disabled::before {
+  content: "—";
+  color: var(--text-disabled);
+}
+
+/* ══════════════════════════════════════════════════════
+   18. FORM
+   ══════════════════════════════════════════════════════ */
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.form-hint {
+  font-size: 11px;
+  color: var(--muted-foreground);
+  margin-top: 4px;
+}
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.checkbox-input {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface-inset);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 10px;
+  color: white;
+}
+.checkbox-input.checked {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.radio-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.radio-dot {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface-inset);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.radio-dot.selected {
+  border-color: var(--primary);
+}
+.radio-dot.selected::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+.toggle-switch {
+  width: 36px;
+  height: 20px;
+  background: var(--border);
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.toggle-switch.on {
+  background: var(--primary);
+}
+.toggle-knob {
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.toggle-switch.on .toggle-knob {
+  transform: translateX(16px);
+}
+
+/* ══════════════════════════════════════════════════════
+   19. TOAST / NOTIFICATION
+   ══════════════════════════════════════════════════════ */
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  border: 1px solid;
+  max-width: 420px;
+}
+.toast-icon {
+  flex-shrink: 0;
+  font-size: 16px;
+  margin-top: 1px;
+}
+.toast-content { flex: 1; }
+.toast-title {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+.toast-message {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.toast-close {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0.6;
+  padding: 0;
+  font-family: var(--font-sans);
+}
+.toast-close:hover { opacity: 1; }
+.toast-success {
+  background: color-mix(in srgb, var(--success) 8%, var(--card));
+  border-color: color-mix(in srgb, var(--success) 25%, transparent);
+  color: var(--foreground);
+}
+.toast-success .toast-icon, .toast-success .toast-title { color: var(--success); }
+.toast-error {
+  background: color-mix(in srgb, var(--destructive) 8%, var(--card));
+  border-color: color-mix(in srgb, var(--destructive) 25%, transparent);
+  color: var(--foreground);
+}
+.toast-error .toast-icon, .toast-error .toast-title { color: var(--destructive); }
+.toast-warning {
+  background: color-mix(in srgb, var(--warning) 8%, var(--card));
+  border-color: color-mix(in srgb, var(--warning) 25%, transparent);
+  color: var(--foreground);
+}
+.toast-warning .toast-icon, .toast-warning .toast-title { color: var(--warning); }
+.toast-info {
+  background: color-mix(in srgb, var(--primary) 8%, var(--card));
+  border-color: color-mix(in srgb, var(--primary) 25%, transparent);
+  color: var(--foreground);
+}
+.toast-info .toast-icon, .toast-info .toast-title { color: var(--primary); }
+
+/* ══════════════════════════════════════════════════════
+   20. TABS
+   ══════════════════════════════════════════════════════ */
+.tabs-container {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.tabs-header {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-elevated);
+}
+.tab-btn {
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  color: var(--muted-foreground);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  margin-bottom: -1px;
+}
+.tab-btn:hover { color: var(--foreground); }
+.tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  background: var(--card);
+}
+.tab-panel {
+  padding: 1.25rem;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  display: none;
+}
+.tab-panel.active { display: block; }
+
+/* ══════════════════════════════════════════════════════
+   21. ACCORDION
+   ══════════════════════════════════════════════════════ */
+.accordion {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--card);
+}
+.accordion-item {
+  border-bottom: 1px solid var(--border-subtle);
+}
+.accordion-item:last-child { border-bottom: none; }
+.accordion-trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  color: var(--foreground);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-align: left;
+}
+.accordion-trigger:hover { background: var(--muted); }
+.accordion-chevron {
+  font-size: 11px;
+  color: var(--muted-foreground);
+  transition: transform 0.2s;
+}
+.accordion-item.open .accordion-chevron {
+  transform: rotate(180deg);
+}
+.accordion-body {
+  padding: 0 16px 14px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  display: none;
+}
+.accordion-item.open .accordion-body {
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════
+   22. AVATAR
+   ══════════════════════════════════════════════════════ */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  flex-shrink: 0;
+  position: relative;
+}
+.avatar-sm { width: 32px; height: 32px; font-size: 12px; }
+.avatar-lg { width: 48px; height: 48px; font-size: 16px; }
+.avatar-status {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 2px solid var(--card);
+}
+.avatar-status.online { background: var(--success); }
+.avatar-status.offline { background: var(--text-disabled); }
+.avatar-status.busy { background: var(--destructive); }
+.user-info-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.user-info-details {
+  flex: 1;
+}
+.user-info-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+.user-info-role {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+
+/* ══════════════════════════════════════════════════════
+   23. BREADCRUMBS & PAGINATION
+   ══════════════════════════════════════════════════════ */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.breadcrumb-item {
+  color: var(--muted-foreground);
+  text-decoration: none;
+  transition: color 0.15s;
+  cursor: pointer;
+}
+.breadcrumb-item:hover { color: var(--primary); }
+.breadcrumb-item.current {
+  color: var(--foreground);
+  font-weight: 500;
+  cursor: default;
+}
+.breadcrumb-sep {
+  color: var(--text-disabled);
+  font-size: 11px;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ══════════════════════════════════════════════════════
+   24. TOOLTIP / POPOVER
+   ══════════════════════════════════════════════════════ */
+.tooltip-preview {
+  position: relative;
+  display: inline-block;
+}
+.tooltip-bubble {
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  position: absolute;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.tooltip-bubble::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--foreground);
+  transform: rotate(45deg);
+}
+.tooltip-bubble.top {
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.tooltip-bubble.top::after {
+  bottom: -4px;
+  left: 50%;
+  margin-left: -4px;
+}
+.popover-preview {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  max-width: 280px;
+}
+.popover-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.popover-desc {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+}
+</style>
+</head>
+<body>
+<div class="demo-container">
+
+  <!-- HEADER -->
+  <div class="demo-header">
+    <h1>Tower Ventures <span class="gradient-text">Design System</span></h1>
+    <div class="mode-toggle">
+      <button class="active" onclick="setMode('light')">Light</button>
+      <button onclick="setMode('dark')">Dark</button>
+    </div>
+  </div>
+
+  <!-- 1. FARBEN -->
+  <section>
+    <h2>1 &middot; Farben</h2>
+
+    <div class="subsection">
+      <div class="subsection-label">Primär & Akzente</div>
+      <div class="grid-5">
+        <div class="swatch"><div class="swatch-color" style="background:var(--primary)"></div><div class="swatch-info"><div class="swatch-label">Primary</div><div class="swatch-value">--primary</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--secondary)"></div><div class="swatch-info"><div class="swatch-label">Secondary</div><div class="swatch-value">--secondary</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--destructive)"></div><div class="swatch-info"><div class="swatch-label">Destructive</div><div class="swatch-value">--destructive</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--success)"></div><div class="swatch-info"><div class="swatch-label">Success</div><div class="swatch-value">--success</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--warning)"></div><div class="swatch-info"><div class="swatch-label">Warning</div><div class="swatch-value">--warning</div></div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Oberflächen</div>
+      <div class="grid-5">
+        <div class="swatch"><div class="swatch-color" style="background:var(--background)"></div><div class="swatch-info"><div class="swatch-label">Background</div><div class="swatch-value">--background</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--card)"></div><div class="swatch-info"><div class="swatch-label">Card</div><div class="swatch-value">--card</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--surface-elevated)"></div><div class="swatch-info"><div class="swatch-label">Elevated</div><div class="swatch-value">--surface-elevated</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--surface-inset)"></div><div class="swatch-info"><div class="swatch-label">Inset</div><div class="swatch-value">--surface-inset</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--muted)"></div><div class="swatch-info"><div class="swatch-label">Muted</div><div class="swatch-value">--muted</div></div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Text & Borders</div>
+      <div class="grid-5">
+        <div class="swatch"><div class="swatch-color" style="background:var(--foreground)"></div><div class="swatch-info"><div class="swatch-label">Foreground</div><div class="swatch-value">--foreground</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--text-secondary)"></div><div class="swatch-info"><div class="swatch-label">Secondary</div><div class="swatch-value">--text-secondary</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--muted-foreground)"></div><div class="swatch-info"><div class="swatch-label">Muted</div><div class="swatch-value">--muted-fg</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--border)"></div><div class="swatch-info"><div class="swatch-label">Border</div><div class="swatch-value">--border</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--border-active)"></div><div class="swatch-info"><div class="swatch-label">Border Active</div><div class="swatch-value">--border-active</div></div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Phasen-Akzente (Agentix)</div>
+      <div class="grid-4">
+        <div class="swatch"><div class="swatch-color" style="background:var(--week-1)"></div><div class="swatch-info"><div class="swatch-label">Phase 1 — Orientierung</div><div class="swatch-value">--week-1</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--week-2)"></div><div class="swatch-info"><div class="swatch-label">Phase 2 — Steuern</div><div class="swatch-value">--week-2</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--week-3)"></div><div class="swatch-info"><div class="swatch-label">Phase 3 — Sichern</div><div class="swatch-value">--week-3</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--week-4)"></div><div class="swatch-info"><div class="swatch-label">Phase 4 — Bauen</div><div class="swatch-value">--week-4</div></div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Gradient</div>
+      <div class="swatch" style="max-width:400px"><div class="swatch-color" style="height:48px;background:linear-gradient(135deg, var(--primary), var(--secondary))"></div><div class="swatch-info"><div class="swatch-label">Brand Gradient</div><div class="swatch-value">135deg, primary <i data-lucide="chevron-right" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> secondary</div></div></div>
+    </div>
+  </section>
+
+  <!-- 2. TYPOGRAFIE -->
+  <section>
+    <h2>2 &middot; Typografie</h2>
+    <div class="type-row"><span class="type-label">Display</span><span class="type-display">Intelligente Technologie</span></div>
+    <div class="type-row"><span class="type-label">H1</span><span class="type-h1">Seitenüberschrift</span></div>
+    <div class="type-row"><span class="type-label">H2</span><span class="type-h2">Sektionsüberschrift</span></div>
+    <div class="type-row"><span class="type-label">H3</span><span class="type-h3">Kartenüberschrift</span></div>
+    <div class="type-row"><span class="type-label">Body</span><span class="type-body">Fließtext für Beschreibungen und Inhalte. Klar und lesbar.</span></div>
+    <div class="type-row"><span class="type-label">Small</span><span class="type-small">Labels, Hilfstext und ergänzende Informationen</span></div>
+    <div class="type-row"><span class="type-label">Tiny</span><span class="type-tiny">Badges, Tags, Timestamps — 11px</span></div>
+    <div class="type-row"><span class="type-label">Micro</span><span class="type-micro">Uppercase Labels · 10px</span></div>
+    <div class="type-row"><span class="type-label">Mono</span><span class="type-mono">const agent = new Claude();</span></div>
+  </section>
+
+  <!-- 3. BUTTONS -->
+  <section>
+    <h2>3 &middot; Buttons</h2>
+    <div class="flex-row" style="margin-bottom:1rem">
+      <button class="btn btn-primary">Beratungsgespräch <i data-lucide="chevron-right" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></button>
+      <button class="btn btn-secondary gradient-border" style="border-color:transparent">Kontakt</button>
+      <button class="btn btn-ghost">Abbrechen</button>
+      <button class="btn btn-small"><i data-lucide="external-link" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i> Tool öffnen</button>
+      <button class="btn btn-destructive">Löschen</button>
+      <button class="btn btn-icon"><i data-lucide="x" style="width:16px;height:16px"></i></button>
+    </div>
+    <div class="subsection-label" style="margin-top:1rem">Phasen-Buttons (Agentix)</div>
+    <div class="flex-row">
+      <button class="btn btn-small" style="background:color-mix(in srgb, var(--week-1) 12%, transparent);color:var(--week-1)"><i data-lucide="external-link" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i> NotebookLM öffnen</button>
+      <button class="btn btn-small" style="background:color-mix(in srgb, var(--week-2) 12%, transparent);color:var(--week-2)"><i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Asset öffnen</button>
+      <button class="btn btn-small" style="background:color-mix(in srgb, var(--week-3) 12%, transparent);color:var(--week-3)"><i data-lucide="hexagon" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Zur Sandbox</button>
+      <button class="btn btn-small" style="background:color-mix(in srgb, var(--week-4) 12%, transparent);color:var(--week-4)"><i data-lucide="pen-tool" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Prototyp bauen</button>
+    </div>
+  </section>
+
+  <!-- 4. BADGES -->
+  <section>
+    <h2>4 &middot; Badges &amp; Tags</h2>
+    <div class="flex-row">
+      <span class="badge badge-primary"><i data-lucide="wrench" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Tool</span>
+      <span class="badge badge-secondary"><i data-lucide="circle-dot" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Reflexion</span>
+      <span class="badge badge-warning"><i data-lucide="hexagon" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Sandbox</span>
+      <span class="badge badge-success"><i data-lucide="pen-tool" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Übung</span>
+      <span class="badge badge-primary"><i data-lucide="play" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Demo</span>
+      <span class="badge badge-muted"><i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Asset</span>
+      <span class="badge badge-destructive">Fehler</span>
+    </div>
+    <div class="flex-row" style="margin-top:0.75rem">
+      <span class="badge badge-week1">Phase 1</span>
+      <span class="badge badge-week2">Phase 2</span>
+      <span class="badge badge-week3">Phase 3</span>
+      <span class="badge badge-week4">Phase 4</span>
+    </div>
+  </section>
+
+  <!-- 5. INPUTS -->
+  <section>
+    <h2>5 &middot; Eingabefelder</h2>
+    <div class="grid-2">
+      <div>
+        <label class="input-label">API Key</label>
+        <input class="input-field" type="text" placeholder="sk-or-...">
+      </div>
+      <div>
+        <label class="input-label">Modell</label>
+        <select class="select-field" style="width:100%">
+          <option>Claude Sonnet 4.5</option>
+          <option>Claude Haiku 4.5</option>
+          <option>Mistral Small</option>
+          <option>Gemini Flash</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-top:1rem">
+      <label class="input-label">System Prompt</label>
+      <textarea class="textarea-field" placeholder="Du bist ein hilfreicher Assistent..."></textarea>
+    </div>
+    <div style="margin-top:0.75rem">
+      <label class="input-label">Temperature</label>
+      <div class="flex-row">
+        <input type="range" min="0" max="1" step="0.1" value="0.7" style="flex:1;accent-color:var(--primary)">
+        <span style="font-size:12px;color:var(--primary);font-weight:500;width:30px">0.7</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. PROGRESS -->
+  <section>
+    <h2>6 &middot; Fortschritt</h2>
+    <div class="flex-col" style="max-width:400px">
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:var(--muted-foreground)">Gesamt</span><span style="font-size:11px;color:var(--primary)">35%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:35%;background:var(--primary)"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:var(--muted-foreground)">Phase 1</span><span style="font-size:11px;color:var(--week-1)">2/3</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:66%;background:var(--week-1)"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:var(--muted-foreground)">Phase 2</span><span style="font-size:11px;color:var(--week-2)">1/4</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:25%;background:var(--week-2)"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;color:var(--muted-foreground)">Phase 3</span><span style="font-size:11px;color:var(--week-3)">0/4</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:0%;background:var(--week-3)"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. CHECKBOXEN -->
+  <section>
+    <h2>7 &middot; Sessions (Checkboxen)</h2>
+    <div class="flex-col" style="max-width:400px">
+      <div class="checkbox-row"><div class="checkbox checked" style="background:var(--week-1);border-color:var(--week-1)"><i data-lucide="check" style="width:12px;height:12px"></i></div><span class="checkbox-label-done">NotebookLM — Kontext erleben</span><span class="badge badge-week1"><i data-lucide="wrench" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Tool</span></div>
+      <div class="checkbox-row"><div class="checkbox checked" style="background:var(--week-1);border-color:var(--week-1)"><i data-lucide="check" style="width:12px;height:12px"></i></div><span class="checkbox-label-done">Cowork — Erste Delegation</span><span class="badge badge-week1"><i data-lucide="wrench" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Tool</span></div>
+      <div class="checkbox-row"><div class="checkbox"></div><span>Reflexion: Autonomie-Spektrum</span><span class="badge badge-secondary"><i data-lucide="circle-dot" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Reflexion</span></div>
+      <div class="checkbox-row"><div class="checkbox" style="border-color:var(--text-disabled)"></div><span style="color:var(--text-disabled)">Claude Code — Erster Start</span><span class="badge badge-muted"><i data-lucide="lock" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i> Phase 2</span></div>
+    </div>
+  </section>
+
+  <!-- 8. KARTEN -->
+  <section>
+    <h2>8 &middot; Karten</h2>
+    <div class="grid-3">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="badge badge-primary">Vorlage</span><span style="font-size:13px;color:var(--muted-foreground)"><i data-lucide="external-link" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i></span></div>
+        <div class="card-title">CLAUDE.md Vorlage</div>
+        <div class="card-desc">Startpunkt für eigene Konfiguration</div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="badge badge-warning">Checkliste</span><span style="font-size:13px;color:var(--muted-foreground)"><i data-lucide="external-link" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i></span></div>
+        <div class="card-title">MCP Sicherheits-Checkliste</div>
+        <div class="card-desc">Vor jedem Server-Einsatz prüfen</div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="badge badge-success">Ressource</span><span style="font-size:13px;color:var(--muted-foreground)"><i data-lucide="external-link" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i></span></div>
+        <div class="card-title">Prompt-Bibliothek</div>
+        <div class="card-desc">Bewährte Prompts für agentische Tasks</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. CHAT -->
+  <section>
+    <h2>9 &middot; Chat / Sandbox</h2>
+    <div class="card" style="max-width:600px;padding:0;overflow:hidden">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted-foreground)">
+        <span style="color:var(--success)"><i data-lucide="check" style="width:12px;height:12px"></i></span> Server-Key aktiv
+        <span style="margin-left:auto">Claude Sonnet 4.5</span>
+        <span>Temp: 0.7</span>
+      </div>
+      <div class="chat-container" style="padding:1rem">
+        <div class="chat-bubble chat-user">Erkläre mir in 3 Sätzen was ein MCP-Server ist.</div>
+        <div class="chat-bubble chat-assistant">Ein MCP-Server erweitert die Fähigkeiten eines KI-Agenten, indem er ihm Zugriff auf externe Tools und Datenquellen gibt. Er fungiert als Brücke zwischen dem Agenten und der realen Welt — z.B. Dateisystem, APIs oder Datenbanken. Dabei definiert der Server genau, welche Aktionen erlaubt sind und welche nicht.</div>
+      </div>
+      <div style="padding:12px 16px;border-top:1px solid var(--border-subtle);display:flex;gap:8px">
+        <input class="input-field" placeholder="Prompt eingeben..." style="flex:1">
+        <button class="btn btn-primary" style="padding:8px 18px;font-size:14px;border-radius:6px"><i data-lucide="send" style="width:16px;height:16px"></i></button>
+      </div>
+    </div>
+    <div style="margin-top:1rem">
+      <div class="subsection-label">Ladeindikator</div>
+      <div class="loading-dots">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. MODAL -->
+  <section>
+    <h2>10 &middot; Modal</h2>
+    <div class="modal-preview">
+      <div class="modal-header">
+        <div>
+          <span class="badge badge-primary" style="margin-bottom:4px">Vorlage</span>
+          <div class="modal-header-title">CLAUDE.md Vorlage</div>
+        </div>
+        <button class="btn btn-icon"><i data-lucide="x" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="modal-body">
+        <pre style="font-family:var(--font-mono);font-size:12px;white-space:pre-wrap;line-height:1.8;color:var(--text-secondary)"># CLAUDE.md — Mein Agent
+
+## Wer ich bin
+Ich bin ein Assistent für [Dein Name].
+
+## Meine Regeln
+- Ich frage nach bevor ich Dateien ändere
+- Ich weise auf Unsicherheiten explizit hin</pre>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-small"><i data-lucide="external-link" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i> Kopieren</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. NAVBAR -->
+  <section>
+    <h2>11 &middot; Navbar (Agentix)</h2>
+    <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+      <div class="navbar">
+        <div class="navbar-brand"><div class="navbar-icon"><i data-lucide="zap" style="width:12px;height:12px"></i></div>AGENTIX</div>
+        <div class="navbar-tabs">
+          <button class="navbar-tab active"><i data-lucide="book-open" style="width:14px;height:14px;margin-right:4px"></i>LERNPFAD</button>
+          <button class="navbar-tab"><i data-lucide="terminal" style="width:14px;height:14px;margin-right:4px"></i>SANDBOX</button>
+          <button class="navbar-tab"><i data-lucide="file-text" style="width:14px;height:14px;margin-right:4px"></i>ASSETS</button>
+        </div>
+        <button class="btn btn-ghost" style="font-size:10px;padding:4px 10px"><i data-lucide="wrench" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Anwenden <i data-lucide="refresh-cw" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i></button>
+        <div class="navbar-progress">
+          <span>5/14</span>
+          <div class="progress-track" style="width:80px"><div class="progress-fill" style="width:35%;background:var(--primary)"></div></div>
+          <span class="navbar-progress-text">35%</span>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:4px">
+          <button class="btn btn-icon" onclick="toggleSidebar()" title="Sidebar"><i data-lucide="panel-left" style="width:16px;height:16px"></i></button>
+          <button class="btn btn-icon" onclick="setMode(document.documentElement.classList.contains('dark') ? 'light' : 'dark')" title="Theme"><i data-lucide="sun" style="width:16px;height:16px"></i></button>
+          <button class="btn btn-icon" title="User"><i data-lucide="user" style="width:16px;height:16px"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. SIDEBAR + SESSIONS -->
+  <section>
+    <h2>12 &middot; Vollansicht (Agentix Lernpfad)</h2>
+    <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+      <div class="navbar">
+        <div class="navbar-brand"><div class="navbar-icon"><i data-lucide="zap" style="width:12px;height:12px"></i></div>AGENTIX</div>
+        <div class="navbar-tabs">
+          <button class="navbar-tab active"><i data-lucide="book-open" style="width:14px;height:14px;margin-right:4px"></i>LERNPFAD</button>
+          <button class="navbar-tab"><i data-lucide="terminal" style="width:14px;height:14px;margin-right:4px"></i>SANDBOX</button>
+          <button class="navbar-tab"><i data-lucide="file-text" style="width:14px;height:14px;margin-right:4px"></i>ASSETS</button>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:4px">
+          <button class="btn btn-icon" onclick="toggleSidebar()" title="Sidebar"><i data-lucide="panel-left" style="width:16px;height:16px"></i></button>
+          <button class="btn btn-icon" onclick="setMode(document.documentElement.classList.contains('dark') ? 'light' : 'dark')" title="Theme"><i data-lucide="sun" style="width:16px;height:16px"></i></button>
+          <button class="btn btn-icon" title="User"><i data-lucide="user" style="width:16px;height:16px"></i></button>
+        </div>
+      </div>
+      <div class="sidebar-preview">
+        <div class="sidebar">
+          <div class="sidebar-label">Phasen</div>
+          <div class="sidebar-item active">
+            <span class="sidebar-icon" style="color:var(--week-1)"><i data-lucide="compass" style="width:16px;height:16px"></i></span>
+            <div><div class="sidebar-title" style="color:var(--foreground)">Orientierung</div><div class="sidebar-meta">Phase 1 · 2/3</div></div>
+          </div>
+          <div class="sidebar-progress"><div class="progress-track" style="width:80%"><div class="progress-fill" style="width:66%;background:var(--week-1)"></div></div></div>
+
+          <div class="sidebar-item" style="opacity:0.5">
+            <span class="sidebar-icon" style="color:var(--week-2)"><i data-lucide="sliders" style="width:16px;height:16px"></i></span>
+            <div><div class="sidebar-title">Steuern</div><div class="sidebar-meta">Phase 2 · 0/4</div></div>
+          </div>
+          <div class="sidebar-item" style="opacity:0.5">
+            <span class="sidebar-icon" style="color:var(--week-3)"><i data-lucide="shield" style="width:16px;height:16px"></i></span>
+            <div><div class="sidebar-title">Sichern</div><div class="sidebar-meta">Phase 3 · 0/4</div></div>
+          </div>
+          <div class="sidebar-item" style="opacity:0.5">
+            <span class="sidebar-icon" style="color:var(--week-4)"><i data-lucide="hammer" style="width:16px;height:16px"></i></span>
+            <div><div class="sidebar-title">Bauen</div><div class="sidebar-meta">Phase 4 · 0/3</div></div>
+          </div>
+        </div>
+        <div class="main-content">
+          <div style="margin-bottom:1.5rem">
+            <div class="type-micro" style="color:var(--week-1);margin-bottom:4px">Phase 1</div>
+            <div class="type-h2">Orientierung</div>
+            <div class="type-small" style="margin-top:2px">Was ist ein Agent wirklich?</div>
+          </div>
+          <div class="flex-col" style="max-width:680px">
+            <div class="session-card">
+              <div class="session-header">
+                <div class="checkbox checked" style="background:var(--week-1);border-color:var(--week-1)"><i data-lucide="check" style="width:12px;height:12px"></i></div>
+                <div style="flex:1">
+                  <div style="display:flex;align-items:center;gap:6px"><span class="session-title" style="text-decoration:line-through;color:var(--muted-foreground)">NotebookLM — Kontext erleben</span><span class="badge badge-week1"><i data-lucide="wrench" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Tool</span></div>
+                  <div class="session-duration">30 min</div>
+                </div>
+                <span style="font-size:10px;color:var(--text-disabled)"><i data-lucide="plus" style="width:12px;height:12px"></i></span>
+              </div>
+            </div>
+            <div class="session-card open">
+              <div class="session-header">
+                <div class="checkbox"></div>
+                <div style="flex:1">
+                  <div style="display:flex;align-items:center;gap:6px"><span class="session-title">Cowork — Erste Delegation</span><span class="badge badge-week1"><i data-lucide="wrench" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Tool</span></div>
+                  <div class="session-duration">45 min</div>
+                </div>
+                <span style="font-size:10px;color:var(--text-disabled)"><i data-lucide="minus" style="width:12px;height:12px"></i></span>
+              </div>
+              <div class="session-detail">
+                <div style="display:flex;gap:4px;margin:10px 0">
+                  <button class="btn btn-small" style="background:var(--primary);color:white">
+                    <i data-lucide="eye" style="width:12px;height:12px"></i> See
+                  </button>
+                  <button class="btn btn-small">
+                    <i data-lucide="wrench" style="width:12px;height:12px"></i> Do
+                  </button>
+                  <button class="btn btn-small">
+                    <i data-lucide="graduation-cap" style="width:12px;height:12px"></i> Teach
+                  </button>
+                </div>
+                <div class="session-desc">Übergib eine echte Aufgabe aus deinem Arbeitsalltag. Beobachte wie der Agent arbeitet — was funktioniert, was nicht?</div>
+                <button class="btn btn-small" style="background:color-mix(in srgb, var(--week-1) 12%, transparent);color:var(--week-1)"><i data-lucide="external-link" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i> Claude Cowork öffnen</button>
+              </div>
+            </div>
+            <div class="session-card">
+              <div class="session-header">
+                <div class="checkbox"></div>
+                <div style="flex:1">
+                  <div style="display:flex;align-items:center;gap:6px"><span class="session-title">Reflexion: Autonomie-Spektrum</span><span class="badge badge-secondary"><i data-lucide="circle-dot" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Reflexion</span></div>
+                  <div class="session-duration">15 min</div>
+                </div>
+                <span style="font-size:10px;color:var(--text-disabled)"><i data-lucide="plus" style="width:12px;height:12px"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. ONBOARDING -->
+  <section>
+    <h2>13 &middot; Onboarding</h2>
+    <div class="card" style="max-width:520px;padding:2rem">
+      <div class="type-micro" style="color:var(--primary);margin-bottom:12px;letter-spacing:4px">Agentix · Lernreise</div>
+      <div class="type-h1" style="margin-bottom:8px">Willkommen.</div>
+      <p class="type-body" style="margin-bottom:2rem">Wähle dein Flight Level — du kannst jederzeit wechseln.</p>
+      <div class="flex-col">
+        <div class="card" style="display:flex;gap:1rem;align-items:flex-start;border-color:color-mix(in srgb, var(--primary) 25%, transparent);cursor:pointer">
+          <span style="font-size:22px;color:var(--primary);margin-top:2px"><i data-lucide="wrench" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:700;margin-bottom:4px">Anwenden</div>
+            <div style="font-size:12px;color:var(--muted-foreground);line-height:1.6">Tools direkt nutzen, konfigurieren und in den Alltag integrieren. See · Do · Teach auf operativer Ebene.</div>
+          </div>
+          <span style="color:var(--primary);font-size:18px;align-self:center"><i data-lucide="chevron-right" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span>
+        </div>
+        <div class="card" style="display:flex;gap:1rem;align-items:flex-start;border-color:color-mix(in srgb, var(--secondary) 25%, transparent);cursor:pointer">
+          <span style="font-size:22px;color:var(--secondary);margin-top:2px"><i data-lucide="circle-dot" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:700;margin-bottom:4px">Gestalten</div>
+            <div style="font-size:12px;color:var(--muted-foreground);line-height:1.6">Einschätzen, steuern und Rahmenbedingungen für das Team schaffen. See · Do · Teach auf strategischer Ebene.</div>
+          </div>
+          <span style="color:var(--secondary);font-size:18px;align-self:center"><i data-lucide="chevron-right" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. TABELLE -->
+  <section>
+    <h2>14 &middot; Tabelle</h2>
+    <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name <i data-lucide="chevrons-up-down" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i></th>
+            <th>Rolle <i data-lucide="chevrons-up-down" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i></th>
+            <th>Status</th>
+            <th>Fortschritt</th>
+            <th>Letzter Zugriff</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600">Anna Müller</td>
+            <td>Anwenden</td>
+            <td><span class="badge badge-success">Aktiv</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="progress-track" style="width:80px"><div class="progress-fill" style="width:85%;background:var(--success)"></div></div>
+                <span style="font-size:11px;color:var(--muted-foreground)">85%</span>
+              </div>
+            </td>
+            <td style="font-size:12px;color:var(--muted-foreground)">Heute, 14:32</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600">Thomas Weber</td>
+            <td>Gestalten</td>
+            <td><span class="badge badge-success">Aktiv</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="progress-track" style="width:80px"><div class="progress-fill" style="width:60%;background:var(--primary)"></div></div>
+                <span style="font-size:11px;color:var(--muted-foreground)">60%</span>
+              </div>
+            </td>
+            <td style="font-size:12px;color:var(--muted-foreground)">Gestern, 09:15</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600">Sarah Koch</td>
+            <td>Anwenden</td>
+            <td><span class="badge badge-warning">Pausiert</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="progress-track" style="width:80px"><div class="progress-fill" style="width:35%;background:var(--warning)"></div></div>
+                <span style="font-size:11px;color:var(--muted-foreground)">35%</span>
+              </div>
+            </td>
+            <td style="font-size:12px;color:var(--muted-foreground)">12. Mrz 2026</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600">Michael Berg</td>
+            <td>Gestalten</td>
+            <td><span class="badge badge-primary">Neu</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="progress-track" style="width:80px"><div class="progress-fill" style="width:10%;background:var(--primary)"></div></div>
+                <span style="font-size:11px;color:var(--muted-foreground)">10%</span>
+              </div>
+            </td>
+            <td style="font-size:12px;color:var(--muted-foreground)">14. Mrz 2026</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600">Lisa Braun</td>
+            <td>Anwenden</td>
+            <td><span class="badge badge-destructive">Inaktiv</span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="progress-track" style="width:80px"><div class="progress-fill" style="width:20%;background:var(--text-disabled)"></div></div>
+                <span style="font-size:11px;color:var(--muted-foreground)">20%</span>
+              </div>
+            </td>
+            <td style="font-size:12px;color:var(--muted-foreground)">01. Mrz 2026</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-pagination">
+        <span>Zeige 1–5 von 24 Teilnehmern</span>
+        <div style="display:flex;gap:4px">
+          <button class="page-btn" style="opacity:0.5"><i data-lucide="chevron-left" style="width:12px;height:12px"></i></button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">4</button>
+          <button class="page-btn">5</button>
+          <button class="page-btn"><i data-lucide="chevron-right" style="width:12px;height:12px"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. KALENDER -->
+  <section>
+    <h2>15 &middot; Kalender</h2>
+    <div class="calendar">
+      <div class="calendar-header">
+        <div class="calendar-nav"><button><i data-lucide="chevron-left" style="width:14px;height:14px"></i></button></div>
+        <div class="calendar-title">März 2026</div>
+        <div class="calendar-nav"><button><i data-lucide="chevron-right" style="width:14px;height:14px"></i></button></div>
+      </div>
+      <div class="calendar-grid">
+        <div class="calendar-dow">Mo</div>
+        <div class="calendar-dow">Di</div>
+        <div class="calendar-dow">Mi</div>
+        <div class="calendar-dow">Do</div>
+        <div class="calendar-dow">Fr</div>
+        <div class="calendar-dow">Sa</div>
+        <div class="calendar-dow">So</div>
+        <!-- Woche 1 -->
+        <div class="calendar-day other-month">23</div>
+        <div class="calendar-day other-month">24</div>
+        <div class="calendar-day other-month">25</div>
+        <div class="calendar-day other-month">26</div>
+        <div class="calendar-day other-month">27</div>
+        <div class="calendar-day other-month">28</div>
+        <div class="calendar-day">1</div>
+        <!-- Woche 2 -->
+        <div class="calendar-day highlighted">2</div>
+        <div class="calendar-day">3</div>
+        <div class="calendar-day">4</div>
+        <div class="calendar-day highlighted">5</div>
+        <div class="calendar-day">6</div>
+        <div class="calendar-day">7</div>
+        <div class="calendar-day">8</div>
+        <!-- Woche 3 -->
+        <div class="calendar-day highlighted">9</div>
+        <div class="calendar-day">10</div>
+        <div class="calendar-day">11</div>
+        <div class="calendar-day highlighted">12</div>
+        <div class="calendar-day">13</div>
+        <div class="calendar-day">14</div>
+        <div class="calendar-day today">15</div>
+        <!-- Woche 4 -->
+        <div class="calendar-day">16</div>
+        <div class="calendar-day">17</div>
+        <div class="calendar-day highlighted">18</div>
+        <div class="calendar-day">19</div>
+        <div class="calendar-day">20</div>
+        <div class="calendar-day">21</div>
+        <div class="calendar-day">22</div>
+        <!-- Woche 5 -->
+        <div class="calendar-day highlighted">23</div>
+        <div class="calendar-day">24</div>
+        <div class="calendar-day">25</div>
+        <div class="calendar-day highlighted">26</div>
+        <div class="calendar-day">27</div>
+        <div class="calendar-day">28</div>
+        <div class="calendar-day">29</div>
+        <!-- Woche 6 -->
+        <div class="calendar-day">30</div>
+        <div class="calendar-day">31</div>
+        <div class="calendar-day other-month">1</div>
+        <div class="calendar-day other-month">2</div>
+        <div class="calendar-day other-month">3</div>
+        <div class="calendar-day other-month">4</div>
+        <div class="calendar-day other-month">5</div>
+      </div>
+      <div style="margin-top:0.75rem;display:flex;gap:1rem;font-size:10px;color:var(--muted-foreground)">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:var(--primary);display:inline-block"></span> Heute</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:4px;background:color-mix(in srgb, var(--primary) 12%, transparent);display:inline-block"></span> Session geplant</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. CHART / STATISTIK -->
+  <section>
+    <h2>16 &middot; Chart / Statistik</h2>
+    <div class="grid-2">
+      <!-- Bar Chart -->
+      <div class="chart-container">
+        <div class="chart-title">Sessions abgeschlossen</div>
+        <div class="chart-subtitle">Fortschritt pro Phase</div>
+        <div class="bar-chart">
+          <div class="bar-group">
+            <div class="bar-value">3/3</div>
+            <div class="bar" style="height:100%;background:var(--chart-1)"></div>
+            <div style="font-size:10px;color:var(--muted-foreground)">W1</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-value">2/4</div>
+            <div class="bar" style="height:50%;background:var(--chart-2)"></div>
+            <div style="font-size:10px;color:var(--muted-foreground)">W2</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-value">1/4</div>
+            <div class="bar" style="height:25%;background:var(--chart-3)"></div>
+            <div style="font-size:10px;color:var(--muted-foreground)">W3</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-value">0/3</div>
+            <div class="bar" style="height:4px;background:var(--chart-4)"></div>
+            <div style="font-size:10px;color:var(--muted-foreground)">W4</div>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:var(--chart-1)"></div>Orientierung</div>
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:var(--chart-2)"></div>Steuern</div>
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:var(--chart-3)"></div>Sichern</div>
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:var(--chart-4)"></div>Bauen</div>
+        </div>
+      </div>
+
+      <!-- Line Chart (CSS-only) -->
+      <div class="chart-container">
+        <div class="chart-title">Aktivität</div>
+        <div class="chart-subtitle">Sandbox-Nutzungen pro Tag (letzte 7 Tage)</div>
+        <div class="line-chart" style="margin-left:30px">
+          <!-- Grid lines -->
+          <div class="line-chart-grid-line" style="bottom:0%"><span class="line-chart-label">0</span></div>
+          <div class="line-chart-grid-line" style="bottom:25%"><span class="line-chart-label">5</span></div>
+          <div class="line-chart-grid-line" style="bottom:50%"><span class="line-chart-label">10</span></div>
+          <div class="line-chart-grid-line" style="bottom:75%"><span class="line-chart-label">15</span></div>
+          <div class="line-chart-grid-line" style="bottom:100%"><span class="line-chart-label">20</span></div>
+          <!-- Data points as dots connected by background -->
+          <svg viewBox="0 0 280 140" style="width:100%;height:100%;position:absolute;top:0;left:0" preserveAspectRatio="none">
+            <polyline points="20,98 66,70 112,84 158,42 204,56 250,28 280,14" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="20,98 66,70 112,84 158,42 204,56 250,28 280,14" fill="url(#lineGrad)" stroke="none" opacity="0.1"/>
+            <defs><linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--primary)"/><stop offset="100%" stop-color="transparent"/></linearGradient></defs>
+            <circle cx="20" cy="98" r="3" fill="var(--primary)"/>
+            <circle cx="66" cy="70" r="3" fill="var(--primary)"/>
+            <circle cx="112" cy="84" r="3" fill="var(--primary)"/>
+            <circle cx="158" cy="42" r="3" fill="var(--primary)"/>
+            <circle cx="204" cy="56" r="3" fill="var(--primary)"/>
+            <circle cx="250" cy="28" r="3" fill="var(--primary)"/>
+            <circle cx="280" cy="14" r="3" fill="var(--primary)"/>
+          </svg>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px;margin-left:30px;font-size:10px;color:var(--muted-foreground)">
+          <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. PRICING / PLAN KARTEN -->
+  <section>
+    <h2>17 &middot; Pricing / Plan Karten</h2>
+    <div class="grid-3">
+      <div class="pricing-card">
+        <div class="pricing-name">Starter</div>
+        <div class="pricing-desc">Einzelpersonen, die KI-Agenten kennenlernen</div>
+        <div class="pricing-price">Kostenlos</div>
+        <div class="pricing-period">Für immer</div>
+        <ul class="pricing-features">
+          <li>1 Lernpfad</li>
+          <li>Sandbox mit eigenem API-Key</li>
+          <li>3 Assets inklusive</li>
+          <li class="disabled">Team-Verwaltung</li>
+          <li class="disabled">Fortschritts-Dashboard</li>
+        </ul>
+        <button class="btn btn-ghost" style="width:100%;justify-content:center">Loslegen</button>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Empfohlen</div>
+        <div class="pricing-name">Professional</div>
+        <div class="pricing-desc">Teams, die agentische Workflows einführen</div>
+        <div class="pricing-price" style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">49 €</div>
+        <div class="pricing-period">pro Person / Monat</div>
+        <ul class="pricing-features">
+          <li>Beide Lernpfade</li>
+          <li>Server-API-Key inklusive</li>
+          <li>Alle Assets & Vorlagen</li>
+          <li>Team-Verwaltung (bis 25)</li>
+          <li>Fortschritts-Dashboard</li>
+        </ul>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;border-radius:6px;padding:10px">Jetzt starten <i data-lucide="chevron-right" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></button>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-name">Enterprise</div>
+        <div class="pricing-desc">Organisationen mit individuellen Anforderungen</div>
+        <div class="pricing-price">Auf Anfrage</div>
+        <div class="pricing-period">Individuelles Angebot</div>
+        <ul class="pricing-features">
+          <li>Unbegrenzte Lernpfade</li>
+          <li>Eigene Module & Inhalte</li>
+          <li>SSO & Compliance</li>
+          <li>Dedizierter Support</li>
+          <li>On-Premise Option</li>
+        </ul>
+        <button class="btn btn-secondary" style="width:100%;justify-content:center;border-radius:6px;padding:10px">Kontakt aufnehmen</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. FORMULAR -->
+  <section>
+    <h2>18 &middot; Formular</h2>
+    <div class="card" style="max-width:560px;padding:1.5rem">
+      <div style="margin-bottom:1.25rem">
+        <div class="type-h3" style="margin-bottom:4px">Teilnehmer hinzufügen</div>
+        <div class="type-small">Füllen Sie die Felder aus, um einen neuen Teilnehmer anzulegen.</div>
+      </div>
+      <div class="form-row" style="margin-bottom:1rem">
+        <div class="form-group" style="margin-bottom:0">
+          <label class="input-label">Vorname</label>
+          <input class="input-field" type="text" placeholder="Max">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="input-label">Nachname</label>
+          <input class="input-field" type="text" placeholder="Mustermann">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="input-label">E-Mail</label>
+        <input class="input-field" type="email" placeholder="max@beispiel.de">
+        <div class="form-hint">Einladung wird an diese Adresse gesendet.</div>
+      </div>
+      <div class="form-group">
+        <label class="input-label">Passwort</label>
+        <input class="input-field" type="password" value="geheimesPasswort">
+      </div>
+      <div class="form-group">
+        <label class="input-label">Lernpfad</label>
+        <select class="select-field" style="width:100%">
+          <option>Bitte wählen...</option>
+          <option>Anwenden — Hands-on mit Tools</option>
+          <option>Gestalten — Strategie & Steuerung</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="input-label" style="margin-bottom:8px">Startmodul</label>
+        <div class="radio-group">
+          <label class="radio-field">
+            <div class="radio-dot selected"><span></span></div>
+            Orientierung (Phase 1)
+          </label>
+          <label class="radio-field">
+            <div class="radio-dot"><span></span></div>
+            Steuern (Phase 2)
+          </label>
+          <label class="radio-field">
+            <div class="radio-dot"><span></span></div>
+            Sichern (Phase 3)
+          </label>
+        </div>
+      </div>
+      <div class="form-group" style="display:flex;flex-direction:column;gap:8px">
+        <label class="checkbox-field">
+          <div class="checkbox-input checked"><i data-lucide="check" style="width:12px;height:12px"></i></div>
+          Einladungs-E-Mail senden
+        </label>
+        <label class="checkbox-field">
+          <div class="checkbox-input"></div>
+          Als Administrator anlegen
+        </label>
+      </div>
+      <div class="form-group" style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <label class="input-label" style="margin-bottom:0">Sofort freischalten</label>
+          <div class="form-hint" style="margin-top:2px">Alle Module sofort verfügbar</div>
+        </div>
+        <div class="toggle-switch on" onclick="this.classList.toggle('on')">
+          <div class="toggle-knob"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border-subtle)">
+        <button class="btn btn-ghost">Abbrechen</button>
+        <button class="btn btn-primary" style="border-radius:6px;padding:10px 24px">Teilnehmer anlegen <i data-lucide="chevron-right" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. TOAST / NOTIFICATION -->
+  <section>
+    <h2>19 &middot; Toast / Notification</h2>
+    <div class="flex-col" style="max-width:420px">
+      <div class="toast toast-success">
+        <span class="toast-icon"><i data-lucide="check" style="width:12px;height:12px"></i></span>
+        <div class="toast-content">
+          <div class="toast-title">Erfolgreich gespeichert</div>
+          <div class="toast-message">Ihre Reflexion wurde gespeichert und kann jederzeit bearbeitet werden.</div>
+        </div>
+        <button class="toast-close"><i data-lucide="x" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="toast toast-error">
+        <span class="toast-icon"><i data-lucide="x" style="width:16px;height:16px"></i></span>
+        <div class="toast-content">
+          <div class="toast-title">API-Fehler</div>
+          <div class="toast-message">Verbindung zu OpenRouter fehlgeschlagen. Bitte prüfen Sie Ihren API-Key.</div>
+        </div>
+        <button class="toast-close"><i data-lucide="x" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="toast toast-warning">
+        <span class="toast-icon"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></span>
+        <div class="toast-content">
+          <div class="toast-title">Modul gesperrt</div>
+          <div class="toast-message">Schließen Sie Phase 1 ab, um dieses Modul freizuschalten.</div>
+        </div>
+        <button class="toast-close"><i data-lucide="x" style="width:16px;height:16px"></i></button>
+      </div>
+      <div class="toast toast-info">
+        <span class="toast-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span>
+        <div class="toast-content">
+          <div class="toast-title">Neues Asset verfügbar</div>
+          <div class="toast-message">Die Prompt-Bibliothek wurde aktualisiert — 5 neue Vorlagen.</div>
+        </div>
+        <button class="toast-close"><i data-lucide="x" style="width:16px;height:16px"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. TABS -->
+  <section>
+    <h2>20 &middot; Tabs</h2>
+    <div class="tabs-container" style="max-width:600px" id="demo-tabs">
+      <div class="tabs-header">
+        <button class="tab-btn active" onclick="switchTab(this,'tab-overview')">Übersicht</button>
+        <button class="tab-btn" onclick="switchTab(this,'tab-tools')">Tools</button>
+        <button class="tab-btn" onclick="switchTab(this,'tab-settings')">Einstellungen</button>
+      </div>
+      <div class="tab-panel active" id="tab-overview">
+        <div style="font-weight:600;margin-bottom:8px">Willkommen zur Lernreise</div>
+        Hier sehen Sie Ihren aktuellen Fortschritt, anstehende Sessions und Empfehlungen für die nächsten Schritte. Starten Sie mit dem ersten Modul, um die Grundlagen agentischer Tools zu verstehen.
+        <div style="margin-top:12px;display:flex;gap:1rem">
+          <div style="text-align:center;padding:12px;background:var(--surface-elevated);border-radius:6px;flex:1">
+            <div style="font-size:1.5rem;font-weight:700;color:var(--primary)">6</div>
+            <div style="font-size:11px;color:var(--muted-foreground)">Abgeschlossen</div>
+          </div>
+          <div style="text-align:center;padding:12px;background:var(--surface-elevated);border-radius:6px;flex:1">
+            <div style="font-size:1.5rem;font-weight:700;color:var(--warning)">3</div>
+            <div style="font-size:11px;color:var(--muted-foreground)">Ausstehend</div>
+          </div>
+          <div style="text-align:center;padding:12px;background:var(--surface-elevated);border-radius:6px;flex:1">
+            <div style="font-size:1.5rem;font-weight:700;color:var(--secondary)">5</div>
+            <div style="font-size:11px;color:var(--muted-foreground)">Gesperrt</div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel" id="tab-tools">
+        <div style="font-weight:600;margin-bottom:8px">Verfügbare Tools</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--surface-elevated);border-radius:6px">
+            <span style="font-size:16px"><i data-lucide="notebook" style="width:16px;height:16px"></i></span>
+            <div style="flex:1"><div style="font-weight:500;font-size:13px">NotebookLM</div><div style="font-size:11px;color:var(--muted-foreground)">Kontextbasiertes Lernen</div></div>
+            <span class="badge badge-success">Verfügbar</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--surface-elevated);border-radius:6px">
+            <span style="font-size:16px"><i data-lucide="bot" style="width:16px;height:16px"></i></span>
+            <div style="flex:1"><div style="font-weight:500;font-size:13px">Claude Cowork</div><div style="font-size:11px;color:var(--muted-foreground)">Delegieren & Zusammenarbeit</div></div>
+            <span class="badge badge-success">Verfügbar</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--surface-elevated);border-radius:6px">
+            <span style="font-size:16px"><i data-lucide="terminal" style="width:16px;height:16px"></i></span>
+            <div style="flex:1"><div style="font-weight:500;font-size:13px">Claude Code</div><div style="font-size:11px;color:var(--muted-foreground)">Terminal-basierter Agent</div></div>
+            <span class="badge badge-muted">Phase 2</span>
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel" id="tab-settings">
+        <div style="font-weight:600;margin-bottom:8px">Einstellungen</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><div style="font-size:13px;font-weight:500">E-Mail-Benachrichtigungen</div><div style="font-size:11px;color:var(--muted-foreground)">Bei neuen Modulen benachrichtigen</div></div>
+            <div class="toggle-switch on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+          </div>
+          <div style="border-top:1px solid var(--border-subtle)"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><div style="font-size:13px;font-weight:500">Fortschritt teilen</div><div style="font-size:11px;color:var(--muted-foreground)">Team-Lead kann Fortschritt sehen</div></div>
+            <div class="toggle-switch" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. ACCORDION / COLLAPSIBLE -->
+  <section>
+    <h2>21 &middot; Accordion / Collapsible</h2>
+    <div class="accordion" style="max-width:600px" id="demo-accordion">
+      <div class="accordion-item open">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          Was ist ein KI-Agent?
+          <span class="accordion-chevron"><i data-lucide="chevron-down" style="width:14px;height:14px"></i></span>
+        </button>
+        <div class="accordion-body">
+          Ein KI-Agent ist ein System, das autonom Aufgaben ausführen kann. Im Gegensatz zu einem einfachen Chatbot kann ein Agent eigenständig planen, Tools verwenden und mehrstufige Prozesse durchlaufen — zum Beispiel Dateien lesen, Code schreiben oder APIs aufrufen.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          Brauche ich Programmierkenntnisse?
+          <span class="accordion-chevron"><i data-lucide="chevron-down" style="width:14px;height:14px"></i></span>
+        </button>
+        <div class="accordion-body">
+          Nein. Die Lernreise ist so gestaltet, dass auch Nicht-Techniker agentische Tools einsetzen können. Für den Anwenden-Pfad reicht es, wenn Sie einen Browser bedienen können. Fortgeschrittene Module in Phase 4 bieten optionale Vertiefung für technisch Interessierte.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          Wie lange dauert die Lernreise?
+          <span class="accordion-chevron"><i data-lucide="chevron-down" style="width:14px;height:14px"></i></span>
+        </button>
+        <div class="accordion-body">
+          Die Lernreise hat 4 Phasen. Sie arbeiten in Ihrem eigenen Tempo — es gibt keinen festen Zeitrahmen. Alle Module bleiben dauerhaft zugänglich, sobald sie freigeschaltet sind.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          Was kostet ein OpenRouter API-Key?
+          <span class="accordion-chevron"><i data-lucide="chevron-down" style="width:14px;height:14px"></i></span>
+        </button>
+        <div class="accordion-body">
+          Ein eigener API-Key ist optional — die Sandbox funktioniert auch mit dem Server-Key. Falls Sie einen eigenen Key nutzen möchten: Bei OpenRouter zahlen Sie nur pro Nutzung. Für die Lernreise fallen typischerweise Kosten unter 5 € an.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. AVATAR / USER INFO -->
+  <section>
+    <h2>22 &middot; Avatar / User Info</h2>
+    <div class="subsection">
+      <div class="subsection-label">Avatare mit Initialen & Status</div>
+      <div class="flex-row" style="gap:1.25rem">
+        <div class="avatar" style="background:var(--chart-1)">AM<div class="avatar-status online"></div></div>
+        <div class="avatar" style="background:var(--chart-2)">TW<div class="avatar-status online"></div></div>
+        <div class="avatar" style="background:var(--chart-3)">SK<div class="avatar-status busy"></div></div>
+        <div class="avatar" style="background:var(--chart-4)">MB<div class="avatar-status offline"></div></div>
+        <div class="avatar-sm" style="background:var(--chart-5);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white">LB</div>
+        <div class="avatar-lg" style="background:linear-gradient(135deg,var(--primary),var(--secondary));width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:white">+3</div>
+      </div>
+    </div>
+    <div class="subsection">
+      <div class="subsection-label">User Info Karten</div>
+      <div class="grid-2" style="max-width:600px">
+        <div class="user-info-card">
+          <div class="avatar" style="background:var(--chart-1)">AM<div class="avatar-status online"></div></div>
+          <div class="user-info-details">
+            <div class="user-info-name">Anna Müller</div>
+            <div class="user-info-role">Anwenden · Phase 3</div>
+          </div>
+          <span class="badge badge-success">Aktiv</span>
+        </div>
+        <div class="user-info-card">
+          <div class="avatar" style="background:var(--chart-2)">TW<div class="avatar-status online"></div></div>
+          <div class="user-info-details">
+            <div class="user-info-name">Thomas Weber</div>
+            <div class="user-info-role">Gestalten · Phase 2</div>
+          </div>
+          <span class="badge badge-primary">Neu</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23. BREADCRUMBS & PAGINATION -->
+  <section>
+    <h2>23 &middot; Breadcrumbs &amp; Pagination</h2>
+    <div class="subsection">
+      <div class="subsection-label">Breadcrumbs</div>
+      <div class="flex-col" style="gap:1rem">
+        <div class="breadcrumbs">
+          <span class="breadcrumb-item">Startseite</span>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-item">Lernpfad</span>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-item">Phase 2</span>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-item current">Claude Code — Erster Start</span>
+        </div>
+        <div class="breadcrumbs">
+          <span class="breadcrumb-item">Dashboard</span>
+          <span class="breadcrumb-sep"><i data-lucide="chevron-right" style="width:12px;height:12px"></i></span>
+          <span class="breadcrumb-item">Team</span>
+          <span class="breadcrumb-sep"><i data-lucide="chevron-right" style="width:12px;height:12px"></i></span>
+          <span class="breadcrumb-item current">Teilnehmer</span>
+        </div>
+      </div>
+    </div>
+    <div class="subsection">
+      <div class="subsection-label">Pagination</div>
+      <div class="flex-col" style="gap:1rem">
+        <div class="pagination">
+          <button class="page-btn" style="opacity:0.5;width:auto;padding:0 10px"><i data-lucide="chevron-left" style="width:12px;height:12px"></i> Zurück</button>
+          <button class="page-btn">1</button>
+          <button class="page-btn active">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">4</button>
+          <span style="font-size:12px;color:var(--text-disabled);padding:0 4px">...</span>
+          <button class="page-btn">12</button>
+          <button class="page-btn" style="width:auto;padding:0 10px">Weiter <i data-lucide="chevron-right" style="width:12px;height:12px"></i></button>
+        </div>
+        <div style="font-size:12px;color:var(--muted-foreground)">Seite 2 von 12 · 116 Ergebnisse</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 24. TOOLTIP / POPOVER PREVIEW -->
+  <section>
+    <h2>24 &middot; Tooltip / Popover Preview</h2>
+    <div class="grid-2">
+      <div>
+        <div class="subsection-label">Tooltips</div>
+        <div class="flex-col" style="gap:2.5rem;padding-top:2rem">
+          <div style="position:relative;display:inline-block;align-self:flex-start">
+            <div class="tooltip-bubble top" style="position:relative;bottom:auto;left:auto;transform:none;margin-bottom:8px">Modul freischalten</div>
+            <div style="width:8px;height:8px;background:var(--foreground);transform:rotate(45deg);margin:0 auto;margin-top:-12px"></div>
+            <button class="btn btn-ghost" style="margin-top:4px"><i data-lucide="lock" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i> Phase 2</button>
+          </div>
+          <div style="position:relative;display:inline-block;align-self:flex-start">
+            <div class="tooltip-bubble top" style="position:relative;bottom:auto;left:auto;transform:none;margin-bottom:8px">Tastenkürzel: Ctrl+Enter</div>
+            <div style="width:8px;height:8px;background:var(--foreground);transform:rotate(45deg);margin:0 auto;margin-top:-12px"></div>
+            <button class="btn btn-primary" style="margin-top:4px;border-radius:6px;padding:8px 16px">Senden</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="subsection-label">Popover</div>
+        <div class="popover-preview">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div class="avatar-sm" style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white;background:var(--chart-1)">AM</div>
+            <div>
+              <div class="popover-title">Anna Müller</div>
+              <div style="font-size:11px;color:var(--muted-foreground)">anna@beispiel.de</div>
+            </div>
+          </div>
+          <div class="popover-desc" style="margin-bottom:10px">Anwenden · Phase 3 von 4 abgeschlossen. Letzte Aktivität vor 2 Stunden.</div>
+          <div style="display:flex;gap:6px">
+            <div style="flex:1;text-align:center;padding:6px;background:var(--surface-elevated);border-radius:4px">
+              <div style="font-size:14px;font-weight:700;color:var(--primary)">85%</div>
+              <div style="font-size:9px;color:var(--muted-foreground)">Fortschritt</div>
+            </div>
+            <div style="flex:1;text-align:center;padding:6px;background:var(--surface-elevated);border-radius:4px">
+              <div style="font-size:14px;font-weight:700;color:var(--success)">12</div>
+              <div style="font-size:9px;color:var(--muted-foreground)">Sessions</div>
+            </div>
+            <div style="flex:1;text-align:center;padding:6px;background:var(--surface-elevated);border-radius:4px">
+              <div style="font-size:14px;font-weight:700;color:var(--secondary)">4</div>
+              <div style="font-size:9px;color:var(--muted-foreground)">Reflexionen</div>
+            </div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:6px">
+            <button class="btn btn-small" style="flex:1;justify-content:center">Profil ansehen</button>
+            <button class="btn btn-ghost" style="font-size:11px;padding:4px 10px">Nachricht</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+function setMode(mode) {
+  if (mode === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+  document.querySelectorAll('.mode-toggle button').forEach(function(btn) {
+    btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === mode);
+  });
+}
+
+function switchTab(btn, panelId) {
+  var container = btn.closest('.tabs-container');
+  container.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  container.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+function toggleAccordion(trigger) {
+  var item = trigger.parentElement;
+  item.classList.toggle('open');
+}
+
+function toggleSidebar() {
+  var sidebar = document.querySelector('.sidebar');
+  if (sidebar) {
+    sidebar.style.display = sidebar.style.display === 'none' ? '' : 'none';
+  }
+}
+</script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
