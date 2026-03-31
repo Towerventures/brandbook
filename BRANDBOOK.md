@@ -130,12 +130,70 @@ Für Sektions-Kennzeichnungen: `font-size: 10px`, `letter-spacing: 2–3px`, `te
 
 ### Header/Navbar
 
-- Höhe: `52–56px`
-- Background: Surface
-- Border-Bottom: Border Subtle
-- **Links:** Logo + Brand
-- **Mitte:** Tab-Navigation (Lernpfad | Sandbox | Assets)
-- **Rechts:** Theme-Toggle (Light/Dark) + Sidebar-Toggle + User-Menu
+Konsistente Navigationsleiste für alle Tower Ventures Apps. Sticky, oben fixiert.
+
+```
+.navbar:
+  Height: 52px
+  Background: Surface
+  Border-Bottom: 1px solid Border Subtle
+  Padding: 0 2rem
+  Display: flex, align-items: center
+  Position: sticky, top: 0, z-index: 100
+```
+
+**Struktur: Links — Mitte — Rechts**
+
+**Links: Navbar-Brand**
+```
+.navbar-brand:
+  Display: flex, align-items: center, gap: 8px
+  Text-Decoration: none
+
+.brand-primary:
+  Font-Size: 0.75rem (12px)
+  Font-Weight: 700
+  Letter-Spacing: 1px
+  Color: gradient text-fill (accent-blue → accent-purple)
+
+.brand-divider:
+  Color: Border
+
+.brand-secondary:
+  Font-Size: 0.75rem (12px)
+  Font-Weight: 500
+  Letter-Spacing: 1px
+  Color: Muted
+```
+
+**HTML-Struktur:**
+```html
+<nav class="navbar">
+  <a href="/" class="navbar-brand">
+    <span class="brand-primary">TOWER VENTURES</span>
+    <span class="brand-divider">|</span>
+    <span class="brand-secondary">PRODUCT NAME</span>
+  </a>
+</nav>
+```
+
+Der Text in `.brand-secondary` variiert je nach App (z.B. "RESEARCH LAB", "DAILY BRIEFING", "AGENTIX").
+
+**Mitte: Tab-Navigation** (optional, nur bei Apps mit mehreren Ansichten)
+```
+.navbar-tab:
+  Height: 52px (volle Navbar-Höhe)
+  Font-Size: 0.6875rem (11px)
+  Font-Weight: 500
+  Letter-Spacing: 1px
+  Text-Transform: uppercase
+  Color: Muted
+  Border-Bottom: 2px solid transparent
+  Hover: Color → accent-blue, Background → accent-blue/5%
+  Active: Color → accent-blue, Border-Bottom → accent-blue, Background → accent-blue/8%
+```
+
+**Rechts:** Theme-Toggle, User-Menu, kontextabhängige Controls (z.B. Datumsauswahl)
 
 ### Header-Toggles (analog VS Code)
 
