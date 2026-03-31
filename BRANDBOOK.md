@@ -149,6 +149,40 @@ Für Sektions-Kennzeichnungen: `font-size: 10px`, `letter-spacing: 2–3px`, `te
 
 ## 5. Komponenten
 
+### Brand-Block
+
+Eigenständige Markenkennung für Login-Seiten, Portale und Splash-Screens. Zentriert, ohne Navigation.
+
+```
+.brand-name:
+  Font-Size: 0.75rem (12px)
+  Font-Weight: 700
+  Letter-Spacing: 2px
+  Text-Transform: uppercase
+  Color: gradient(135deg, accent-blue, accent-purple) — als text-fill
+
+.brand-sub:
+  Font-Size: 0.625rem (10px)
+  Font-Weight: 400
+  Letter-Spacing: 2px
+  Text-Transform: uppercase
+  Color: Muted
+  Margin-Top: 4px
+```
+
+**Verwendung:**
+- Login / Anmelde-Seiten (zentriert in Card)
+- Portal-Startseiten (zentriert im Header)
+- Ladebildschirme
+
+**HTML-Struktur:**
+```html
+<div class="brand-name">Tower Ventures</div>
+<div class="brand-sub">Research Lab</div>
+```
+
+Der Text in `.brand-sub` variiert je nach Produkt (z.B. "Research Lab", "Daily Briefing", "Agentix").
+
 ### Buttons
 
 **Primary (CTA):**
